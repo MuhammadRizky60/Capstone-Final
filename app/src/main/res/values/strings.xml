@@ -27,6 +27,10 @@
     <string name="welcome">Selamat Datang</string>
     <string name="welcome_text"> Kami membantu Anda mendeteksi dan mencegah penyakit tanaman dengan cepat dan akurat. Mari ciptakan lingkungan hijau yang subur bersama!</string>
     <string name="success_login">Anda Berhasil Masuk</string>
+    <string name="retry">Retry</string>
+    <string name="empty_image">Masukkan berkas gambar terlebih dahulu</string>
+    <string name="success_upload">Anda telah berhasil upload</string>
+    <string name="add_your_description_here">Tambahkan Deskripsi disini</string>
 
     <string-array name="data_name">
         <item>Anjing</item>

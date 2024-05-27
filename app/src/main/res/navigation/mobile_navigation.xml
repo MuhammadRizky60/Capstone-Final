@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/navigation_sharingpage"
-        android:name="com.example.test.ui.notifications.NotificationsFragment"
+        android:name="com.example.test.ui.sharingpage.SharingPageFragment"
         android:label="@string/title_sharingpage"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_sharingpage" />
 
     <fragment
         android:id="@+id/navigation_profile"

@@ -5,8 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.test.data.UserRepository
 import com.example.test.di.Injection
+import com.example.test.ui.addList.AddListViewModel
+import com.example.test.ui.detail.DetailViewModel
 import com.example.test.ui.login.LoginViewModel
 import com.example.test.ui.main.MainViewModel
+import com.example.test.ui.sharingpage.SharingPageViewModel
 
 class ViewModelFactory(private val repository: UserRepository) : ViewModelProvider.NewInstanceFactory() {
 
@@ -18,6 +21,15 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             }
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(AddListViewModel::class.java) -> {
+                AddListViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
+                DetailViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(SharingPageViewModel::class.java) -> {
+                SharingPageViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
