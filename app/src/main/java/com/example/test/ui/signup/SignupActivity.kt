@@ -68,7 +68,7 @@ class SignupActivity : AppCompatActivity() {
                 try {
                     val apiService = ApiConfig.getApiService()
                     val successResponse = apiService.register(name, email, password).message
-                    showToast(successResponse)
+                    showToast(successResponse.toString())
                     showLoading(false)
 //                    AlertDialog.Builder(this@SignupActivity).apply {
 //                        setTitle("Yeah!")
@@ -86,13 +86,22 @@ class SignupActivity : AppCompatActivity() {
                 } catch (e: HttpException) {
                     val errorBody = e.response()?.errorBody()?.string()
                     val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
-                    showToast(errorResponse.message)
+                    val errorMessage = parseErrorMessage(errorResponse.message)
+                    showToast(errorMessage)
                     showLoading(false)
                 }
             }
         }
     }
 
+    private fun parseErrorMessage(message: Any?): String {
+        return if (message is Map<*, *>) {
+            val emailErrors = message["email"] as? List<*>
+            emailErrors?.joinToString(", ") ?: "Unknown error"
+        } else {
+            message?.toString() ?: "Unknown error"
+        }
+    }
     private fun showToast(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }

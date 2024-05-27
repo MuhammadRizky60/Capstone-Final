@@ -74,8 +74,8 @@ class LoginActivity : AppCompatActivity() {
                     val apiService = ApiConfig.getApiService()
                     val loginResponse = apiService.login(email, password)
                     val successResponse = loginResponse.message
-                    val token = loginResponse.loginResult?.token
-                    val name = loginResponse.loginResult?.name
+                    val token = loginResponse.accessToken
+                    val name = loginResponse.name
                     showToast(successResponse)
 
                     if (token != null && name != null) {
