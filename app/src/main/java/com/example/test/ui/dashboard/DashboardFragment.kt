@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.test.R
 import com.example.test.data.response.Animal
-import com.example.test.ui.adapter.ListAnimalAdapter
+import com.example.test.ui.adapter.ListHistoryAdapter
 
 class DashboardFragment : Fragment() {
 
@@ -46,7 +46,7 @@ class DashboardFragment : Fragment() {
 
     private fun showRecyclerList() {
         rvAnimal.layoutManager = LinearLayoutManager(context)
-        val listAnimalAdapter = ListAnimalAdapter(list)
+        val listAnimalAdapter = ListHistoryAdapter(list)
         rvAnimal.adapter = listAnimalAdapter
     }
 }
