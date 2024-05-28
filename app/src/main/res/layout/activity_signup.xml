@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/agronect2"
+    android:background="@drawable/"
     android:padding="16dp"
     tools:context=".ui.signup.SignupActivity">
 
@@ -13,7 +13,8 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
-        android:src="@drawable/agronect2"
+        android:src="@drawable/agronect"
+
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
