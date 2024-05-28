@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/brown"
+    android:background="@drawable/walpapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
@@ -93,17 +93,37 @@
                 android:fontFamily="@font/poppins_medium"
                 android:text="@string/email" />
 
-            <Button
-                android:id="@+id/logoutButton"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/ll_btnlog"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+
+            <Button
+
+                android:id="@+id/editButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/blackbrown"
                 android:fontFamily="@font/poppins_medium"
-                android:text="@string/logout" />
+                android:text="@string/edit" />
+
+                <Button
+                    android:id="@+id/logoutButton"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="20dp"
+                    android:backgroundTint="@color/blackbrown"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/logout" />
+            </LinearLayout>
+
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

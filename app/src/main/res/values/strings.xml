@@ -31,6 +31,8 @@
     <string name="empty_image">Masukkan berkas gambar terlebih dahulu</string>
     <string name="success_upload">Anda telah berhasil upload</string>
     <string name="add_your_description_here">Tambahkan Deskripsi disini</string>
+    <string name="edit">Edit</string>
+    <string name="editprofile">Edit Profile</string>
 
     <string-array name="data_name">
         <item>Anjing</item>
