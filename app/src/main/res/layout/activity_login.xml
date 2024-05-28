@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/agronect2"
+    android:background="@drawable/back2"
     android:padding="16dp"
     tools:context=".ui.login.LoginActivity">
 
@@ -13,7 +13,7 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
-        android:src="@drawable/agronect2"
+        android:src="@drawable/agronect"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,10 +23,10 @@
         android:id="@+id/materialCardView"
         android:elevation="4dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -56,7 +56,7 @@
                 android:text="@string/username"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/poppins_medium"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="16dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -120,7 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="32dp"
                 android:backgroundTint="@color/blackbrown"
                 android:textColor="@color/white"
@@ -141,7 +141,7 @@
                 android:textStyle="bold"
                 android:fontFamily="@font/poppins_medium"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:layout_marginEnd="16dp"/>
 
@@ -154,6 +154,7 @@
                 android:fontFamily="@font/poppins_medium"
                 android:textColor="@color/semiblckbrown"
                 android:layout_marginStart="20dp"
+                android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:layout_marginEnd="16dp"/>
 

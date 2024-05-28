@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/"
+    android:background="@drawable/back"
     android:padding="16dp"
     tools:context=".ui.signup.SignupActivity">
 
@@ -14,7 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:src="@drawable/agronect"
-
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,10 +22,10 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:elevation="4dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -150,7 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="32dp"
                 android:backgroundTint="@color/blackbrown"
                 android:textColor="@color/white"
@@ -169,7 +168,7 @@
                 android:text="@string/signup_ask"
                 android:textStyle="bold"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:layout_marginEnd="16dp"/>
 
@@ -181,6 +180,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/semiblckbrown"
                 android:layout_marginStart="20dp"
+                android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:layout_marginEnd="16dp"/>
 
