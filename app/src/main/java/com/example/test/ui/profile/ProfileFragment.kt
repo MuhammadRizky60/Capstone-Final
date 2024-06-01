@@ -41,16 +41,14 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.btnBack.setOnClickListener {
-//            activity?.onBackPressed()
-//        }
-
         binding.logoutButton.setOnClickListener {
             viewModel.logout()
         }
 
-        binding.editButton.setOnClickListener{
+        binding.editButton.setOnClickListener {
             val intent = Intent(requireContext(), editProfileActivity::class.java)
+            intent.putExtra("username", binding.nameEditTextLayout.text.toString())
+            intent.putExtra("email", binding.emailEditTextLayout.text.toString())
             startActivity(intent)
         }
 

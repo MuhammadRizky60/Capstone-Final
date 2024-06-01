@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.test.databinding.FragmentHomeBinding
 import com.example.test.ui.ViewModelFactory
+import com.example.test.ui.editProfile.editProfileActivity
 import com.example.test.ui.main.MainViewModel
 import com.example.test.ui.welcome.WelcomeActivity
 
@@ -43,6 +44,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.cvPlant1.setOnClickListener{
+            val intent = Intent(requireContext(), editProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         viewModel.getSession().observe(viewLifecycleOwner) { user ->
             if (!user.isLogin) {

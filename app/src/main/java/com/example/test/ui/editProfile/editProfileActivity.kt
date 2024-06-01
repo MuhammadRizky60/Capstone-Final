@@ -17,6 +17,12 @@ class editProfileActivity : AppCompatActivity() {
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val username = intent.getStringExtra("username")
+        val email = intent.getStringExtra("email")
+
+        binding.editUsername.setText(username)
+        binding.editEmail.setText(email)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
