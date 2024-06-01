@@ -36,6 +36,16 @@
     <string name="ubah">Ubah</string>
     <string name="halo">Halo, Rizky</string>
     <string name="text_klasifikasi">Tanaman apa  yang ingin kamu\nKlasifikasikan?</string>
+    <string name="jagung">Jagung</string>
+    <string name="kentang">Kentang</string>
+    <string name="Singkong">Singkong\n</string>
+    <string name="Pisang">Pisang</string>
+    <string name="Jeruk">Jeruk</string>
+    <string name="Padi">Padi</string>
+    <string name="Cabai">Cabai</string>
+    <string name="Apel">Apel</string>
+    <string name="Ubah_Profil">Ubah Profil</string>
+    <string name="selamat_datang">Selamat datang,</string>
 
     <string-array name="data_name">
         <item>Anjing</item>

@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.test.R
 import com.example.test.databinding.FragmentProfileBinding
 import com.example.test.ui.ViewModelFactory
+import com.example.test.ui.editProfile.editProfileActivity
 import com.example.test.ui.main.MainViewModel
 import com.example.test.ui.welcome.WelcomeActivity
 
@@ -46,6 +47,11 @@ class ProfileFragment : Fragment() {
 
         binding.logoutButton.setOnClickListener {
             viewModel.logout()
+        }
+
+        binding.editButton.setOnClickListener{
+            val intent = Intent(requireContext(), editProfileActivity::class.java)
+            startActivity(intent)
         }
 
         viewModel.getSession().observe(viewLifecycleOwner) { user ->

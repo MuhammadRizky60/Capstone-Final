@@ -21,6 +21,9 @@
             android:name=".ui.profile.ProfileFragment"
             android:exported="false" />
         <activity
+            android:name=".ui.editProfile.editProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.welcome.WelcomeActivity"
             android:exported="false"/>
         <activity
