@@ -7,6 +7,8 @@ import com.example.test.data.UserRepository
 import com.example.test.di.Injection
 import com.example.test.ui.addList.AddListViewModel
 import com.example.test.ui.detail.DetailViewModel
+import com.example.test.ui.home.HomeFragment
+import com.example.test.ui.home.HomeViewModel
 import com.example.test.ui.login.LoginViewModel
 import com.example.test.ui.main.MainViewModel
 import com.example.test.ui.sharingpage.SharingPageViewModel
@@ -31,6 +33,9 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             modelClass.isAssignableFrom(SharingPageViewModel::class.java) -> {
                 SharingPageViewModel(repository) as T
             }
+//            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
+//                HomeViewModel(repository) as T
+//            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }

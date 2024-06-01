@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/Menu"
-        layout="@layout/layout_4_button"
+        layout="@layout/fragment_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="0dp" />

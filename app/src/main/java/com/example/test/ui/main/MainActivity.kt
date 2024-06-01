@@ -35,25 +35,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        binding.btnProfile.setOnClickListener {
-//            startActivity(Intent(this, ProfileFragment::class.java))
-//        }
-
-        // Set the Toolbar as the app bar for the activity
-        //setSupportActionBar(binding.toolbar)
 
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
-//        val appBarConfiguration = AppBarConfiguration(
-//            setOf(
-//                R.id.navigation_home,
-//                R.id.navigation_dashboard,
-//                R.id.navigation_notifications,
-//            )
-//        )
-//        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
@@ -71,11 +57,6 @@ class MainActivity : AppCompatActivity() {
 
                 token = user.token
                 Log.d(ContentValues.TAG, "token: $token")
-//                mainViewModel.getStory(token)
-//                mainViewModel.story.observe(this) { storyList ->
-//                    Log.d(ContentValues.TAG, "Story: $storyList")
-//                    setStoryData(storyList)
-//                }
                 mainViewModel.isLoading.observe(this) {
                     showLoading(it)
                 }
