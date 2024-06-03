@@ -19,6 +19,7 @@ import com.example.test.data.util.getImageUri
 import com.example.test.data.util.reduceFileImage
 import com.example.test.data.util.uriToFile
 import com.example.test.databinding.ActivityAddListBinding
+import com.example.test.databinding.AddPlantBinding
 import com.example.test.ui.ViewModelFactory
 import com.example.test.ui.addList.AddListViewModel
 import com.example.test.ui.main.MainActivity
@@ -35,7 +36,7 @@ import retrofit2.HttpException
 import retrofit2.Response
 
 class AddPlantActivity : AppCompatActivity(){
-    private lateinit var binding: ActivityAddListBinding
+    private lateinit var binding: AddPlantBinding
     private val viewModel by viewModels<AddListViewModel> {
         ViewModelFactory.getInstance(this)
     }
@@ -44,10 +45,12 @@ class AddPlantActivity : AppCompatActivity(){
     private var currentImageUri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAddListBinding.inflate(layoutInflater)
+        binding = AddPlantBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "Add Story"
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
 
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
@@ -55,9 +58,9 @@ class AddPlantActivity : AppCompatActivity(){
                 finish()
             } else {
                 token = user.token
-                binding.btGallery.setOnClickListener { startGallery() }
-                binding.btCamera.setOnClickListener { startCamera() }
-                binding.btUpload.setOnClickListener {
+                binding.galleryButton.setOnClickListener { startGallery() }
+                binding.cameraButton.setOnClickListener { startCamera() }
+                binding.uploadButton.setOnClickListener {
                     uploadImage()
                 }
             }
@@ -88,7 +91,7 @@ class AddPlantActivity : AppCompatActivity(){
     private fun showImage() {
         currentImageUri?.let {
             Log.d("Image URI", "showImage: $it")
-            binding.ivPreview.setImageURI(it)
+            binding.previewImageView.setImageURI(it)
         }
     }
 
@@ -109,10 +112,10 @@ class AddPlantActivity : AppCompatActivity(){
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
             Log.d("Image File", "showImage: ${imageFile.path}")
-            val description = binding.etDescription.text.toString()
+            //val description = binding.etDescription.text.toString()
             showLoading(true)
 
-            val requestBody = description.toRequestBody("text/plain".toMediaType())
+            //val requestBody = description.toRequestBody("text/plain".toMediaType())
             val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
             val multipartBody = MultipartBody.Part.createFormData(
                 "photo",
@@ -123,7 +126,7 @@ class AddPlantActivity : AppCompatActivity(){
             lifecycleScope.launch {
                 try {
                     val apiService = ApiConfig.getApiService()
-                    val successResponse = apiService.uploadImage("Bearer $token", multipartBody, requestBody)
+                    val successResponse = apiService.uploadImage("Bearer $token", multipartBody)
                     Log.d(ContentValues.TAG, "uploadImage token: $token")
                     Log.d(ContentValues.TAG, "uploadImage: berhasil")
                     showToast(getString(R.string.success_upload))
@@ -163,6 +166,6 @@ class AddPlantActivity : AppCompatActivity(){
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.lpiProgressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }
