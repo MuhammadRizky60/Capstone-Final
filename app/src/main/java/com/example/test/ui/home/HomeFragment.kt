@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.test.databinding.FragmentHomeBinding
 import com.example.test.ui.ViewModelFactory
+import com.example.test.ui.addPlant.AddPlantActivity
 import com.example.test.ui.editProfile.editProfileActivity
 import com.example.test.ui.main.MainViewModel
 import com.example.test.ui.welcome.WelcomeActivity
@@ -45,7 +46,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.cvPlant1.setOnClickListener{
-            val intent = Intent(requireContext(), editProfileActivity::class.java)
+            val intent = Intent(requireContext(), AddPlantActivity::class.java)
             startActivity(intent)
         }
 

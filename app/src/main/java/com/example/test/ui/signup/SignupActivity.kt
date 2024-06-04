@@ -64,25 +64,31 @@ class SignupActivity : AppCompatActivity() {
             val name = binding.tvUsername.text.toString()
             val password = binding.tvPassword.text.toString()
 
+            if (!isPasswordValid(password)) {
+                showToast(getString(R.string.error_password_requirement))
+                showLoading(false)
+                return@setOnClickListener
+            }
+
             lifecycleScope.launch {
                 try {
                     val apiService = ApiConfig.getApiService()
                     val successResponse = apiService.register(name, email, password).message
                     showToast(successResponse.toString())
                     showLoading(false)
-//                    AlertDialog.Builder(this@SignupActivity).apply {
-//                        setTitle("Yeah!")
-//                        setMessage("Yuk, login")
-//                        setPositiveButton(getString(R.string.next)) { _, _ ->
-//                            finish()
-//                        }
-//                        create()
-//                        show()
-//                    }
+                    // Uncomment the AlertDialog if needed
+                    // AlertDialog.Builder(this@SignupActivity).apply {
+                    //     setTitle("Yeah!")
+                    //     setMessage("Yuk, login")
+                    //     setPositiveButton(getString(R.string.next)) { _, _ ->
+                    //         finish()
+                    //     }
+                    //     create()
+                    //     show()
+                    // }
                     showToast(getString(R.string.success_signup))
                     startActivity(Intent(this@SignupActivity, WelcomeActivity::class.java))
                     finish()
-
                 } catch (e: HttpException) {
                     val errorBody = e.response()?.errorBody()?.string()
                     val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
@@ -94,6 +100,10 @@ class SignupActivity : AppCompatActivity() {
         }
     }
 
+    private fun isPasswordValid(password: String): Boolean {
+        return password.length >= 8 && password.any { it.isUpperCase() }
+    }
+
     private fun parseErrorMessage(message: Any?): String {
         return if (message is Map<*, *>) {
             val emailErrors = message["email"] as? List<*>
@@ -102,6 +112,7 @@ class SignupActivity : AppCompatActivity() {
             message?.toString() ?: "Unknown error"
         }
     }
+
     private fun showToast(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
@@ -109,6 +120,4 @@ class SignupActivity : AppCompatActivity() {
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
-
-
 }

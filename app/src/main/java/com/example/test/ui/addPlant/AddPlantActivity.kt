@@ -18,7 +18,6 @@ import com.example.test.data.retrofit.ApiConfig
 import com.example.test.data.util.getImageUri
 import com.example.test.data.util.reduceFileImage
 import com.example.test.data.util.uriToFile
-import com.example.test.databinding.ActivityAddListBinding
 import com.example.test.databinding.AddPlantBinding
 import com.example.test.ui.ViewModelFactory
 import com.example.test.ui.addList.AddListViewModel

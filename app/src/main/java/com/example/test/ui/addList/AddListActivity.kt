@@ -112,7 +112,7 @@ class AddListActivity : AppCompatActivity(){
             val description = binding.etDescription.text.toString()
             showLoading(true)
 
-            val requestBody = description.toRequestBody("text/plain".toMediaType())
+//            val requestBody = description.toRequestBody("text/plain".toMediaType())
             val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
             val multipartBody = MultipartBody.Part.createFormData(
                 "photo",
@@ -123,7 +123,7 @@ class AddListActivity : AppCompatActivity(){
             lifecycleScope.launch {
                 try {
                     val apiService = ApiConfig.getApiService()
-                    val successResponse = apiService.uploadImage("Bearer $token", multipartBody, requestBody)
+                    val successResponse = apiService.uploadImage("Bearer $token", multipartBody)
                     Log.d(ContentValues.TAG, "uploadImage token: $token")
                     Log.d(ContentValues.TAG, "uploadImage: berhasil")
                     showToast(getString(R.string.success_upload))

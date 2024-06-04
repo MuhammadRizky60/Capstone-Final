@@ -3,13 +3,13 @@ package com.example.test.ui.login
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -31,6 +31,7 @@ class LoginActivity : AppCompatActivity() {
         ViewModelFactory.getInstance(this)
     }
     private lateinit var binding: ActivityLoginBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -50,6 +51,7 @@ class LoginActivity : AppCompatActivity() {
         setupView()
         setupAction()
     }
+
     private fun setupView() {
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -69,6 +71,12 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
 
+            if (!isValidEmail(email)) {
+                showLoading(false)
+                showToast(getString(R.string.invalid_email))
+                return@setOnClickListener
+            }
+
             lifecycleScope.launch {
                 try {
                     val apiService = ApiConfig.getApiService()
@@ -79,21 +87,8 @@ class LoginActivity : AppCompatActivity() {
                     showToast(successResponse)
 
                     if (token != null && name != null) {
-                        viewModel.saveSession(UserModel(email, token.toString(), true, name)) // Tambahkan parameter name
+                        viewModel.saveSession(UserModel(email, token.toString(), true, name))
                     }
-                    showLoading(false)
-//                    AlertDialog.Builder(this@LoginActivity).apply {
-//                        setTitle("Yeah!")
-//                        setMessage(getString(R.string.success_login))
-//                        setPositiveButton(getString(R.string.next)) { _, _ ->
-//                            val intent = Intent(context, MainActivity::class.java)
-//                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-//                            startActivity(intent)
-//                            finish()
-//                        }
-//                        create()
-//                        show()
-//                    }
                     showLoading(false)
                     showToast(getString(R.string.success_login))
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
@@ -109,6 +104,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun isValidEmail(email: String): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
 
     private fun showToast(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

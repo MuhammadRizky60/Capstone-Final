@@ -48,6 +48,10 @@
     <string name="Ubah_Profil">Ubah Profil</string>
     <string name="selamat_datang">Selamat datang,</string>
     <string name="rizky">Rizky</string>
+    <string name="unggah_gambar">Unggah Gambar</string>
+    <string name="tombol_kembali">tombol kembali</string>
+    <string name="invalid_email">Format Email Salah</string>
+    <string name="error_password_requirement">Minimal 1 Huruf Kapital</string>
 
     <string-array name="data_name">
         <item>Anjing</item>
