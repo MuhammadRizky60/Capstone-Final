@@ -14,7 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.test.data.response.ListStoryItem
+import com.example.test.data.response.DataGetAllItemItem
 import com.example.test.databinding.FragmentSharingpageBinding
 import com.example.test.ui.ViewModelFactory
 import com.example.test.ui.adapter.LoadingStateAdapter
@@ -33,39 +33,69 @@ class SharingPageFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSharingpageBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        viewModel.getSession().observe(viewLifecycleOwner) { user ->
+//            token = user.token
+//            viewModel.getStory(token)
+//        }
+//        val adapter = StoriesAdapter()
+//
+//        viewModel.getStory(token).observe(viewLifecycleOwner) { storyList ->
+//            adapter.submitData(lifecycle, storyList)
+//            binding.rvStories.adapter = adapter.withLoadStateFooter(
+//                footer = LoadingStateAdapter {
+//                    adapter.retry()
+//                }
+//            )
+//        }
+//
+//        adapter.setOnItemClickCallback(object : StoriesAdapter.OnItemClickCallback {
+//            override fun onItemClicked(data: DataGetAllItemItem) {
+//                Intent(this@SharingPageFragment, DetailActivity::class.java).also {
+//                    it.putExtra(DetailActivity.ID, data.userId)
+//                    startActivity(it)
+//                }
+//            }
+//        })
+//
+//        viewModel.isLoading.observe(viewLifecycleOwner) {
+//            showLoading(it)
+//        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getSession().observe(viewLifecycleOwner) { user ->
-            val mainViewModel = obtainViewModel(requireActivity())
-
             token = user.token
-            val adapter = StoriesAdapter()
-
-            mainViewModel.getStory(token).observe(viewLifecycleOwner) { storyList ->
-                adapter.submitData(viewLifecycleOwner.lifecycle, storyList)
+            viewModel.getStory(token).observe(viewLifecycleOwner) { storyList ->
+                val adapter = StoriesAdapter()
+                adapter.submitData(lifecycle, storyList)
                 binding.rvStories.adapter = adapter.withLoadStateFooter(
                     footer = LoadingStateAdapter {
                         adapter.retry()
                     }
                 )
-            }
-            adapter.setOnItemClickCallback(object : StoriesAdapter.OnItemClickCallback {
-                override fun onItemClicked(data: ListStoryItem) {
-                    Intent(requireContext(), DetailActivity::class.java).also {
-                        it.putExtra(DetailActivity.ID, data.id)
-                        startActivity(it)
+
+                adapter.setOnItemClickCallback(object : StoriesAdapter.OnItemClickCallback {
+                    override fun onItemClicked(data: DataGetAllItemItem) {
+                        Intent(requireContext(), DetailActivity::class.java).also {
+                            it.putExtra(DetailActivity.ID, data.sharingId)
+                            startActivity(it)
+                        }
                     }
-                }
-            })
-            mainViewModel.isLoading.observe(viewLifecycleOwner) {
-                showLoading(it)
+                })
             }
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            showLoading(it)
         }
 
         setupView()
@@ -92,11 +122,6 @@ class SharingPageFragment : Fragment() {
         }
     }
 
-    private fun obtainViewModel(activity: FragmentActivity): SharingPageViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[SharingPageViewModel::class.java]
-    }
-
     private fun showLoading(state: Boolean) {
         binding.progressbar.visibility = if (state) View.VISIBLE else View.GONE
     }
@@ -106,3 +131,4 @@ class SharingPageFragment : Fragment() {
         _binding = null
     }
 }
+

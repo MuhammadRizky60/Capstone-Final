@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.DiffUtil
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.test.data.response.DataGetAllItemItem
 
-import com.example.test.data.response.ListStoryItem
 import com.example.test.databinding.ItemStoriesBinding
 
-class StoriesAdapter : PagingDataAdapter<ListStoryItem, StoriesAdapter.MyViewHolder>(DIFF_CALLBACK){
+class StoriesAdapter : PagingDataAdapter<DataGetAllItemItem, StoriesAdapter.MyViewHolder>(DIFF_CALLBACK){
     private var onItemClickCallback: OnItemClickCallback? = null
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
@@ -36,32 +36,32 @@ class StoriesAdapter : PagingDataAdapter<ListStoryItem, StoriesAdapter.MyViewHol
 
     inner class MyViewHolder(val binding: ItemStoriesBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(story: ListStoryItem) {
+        fun bind(story: DataGetAllItemItem) {
 
             Log.d(ContentValues.TAG, "bind: $story")
             binding.tvName.text = "${story.name}"
-            binding.tvDetail.text = "${story.description}"
+            binding.tvDetail.text = "${story.content}"
 
             Glide.with(binding.root.context)
-                .load(story.photoUrl)
+                .load(story.imgUrl)
                 .into(binding.ivImage)
         }
     }
     interface OnItemClickCallback {
-        fun onItemClicked(data: ListStoryItem)
+        fun onItemClicked(data: DataGetAllItemItem)
     }
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListStoryItem>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DataGetAllItemItem>() {
             override fun areItemsTheSame(
-                oldItem: ListStoryItem,
-                newItem: ListStoryItem
+                oldItem: DataGetAllItemItem,
+                newItem: DataGetAllItemItem
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: ListStoryItem,
-                newItem: ListStoryItem
+                oldItem: DataGetAllItemItem,
+                newItem: DataGetAllItemItem
             ): Boolean {
                 return oldItem == newItem
             }

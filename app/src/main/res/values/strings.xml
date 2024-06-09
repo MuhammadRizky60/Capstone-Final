@@ -52,6 +52,7 @@
     <string name="tombol_kembali">tombol kembali</string>
     <string name="invalid_email">Format Email Salah</string>
     <string name="error_password_requirement">Minimal 1 Huruf Kapital</string>
+    <string name="story_image">story image</string>
 
     <string-array name="data_name">
         <item>Anjing</item>

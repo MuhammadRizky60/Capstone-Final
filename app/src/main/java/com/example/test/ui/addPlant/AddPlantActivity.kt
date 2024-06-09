@@ -13,7 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.test.R
-import com.example.test.data.response.AddResponse
+import com.example.test.data.response.AddSharingResponse
 import com.example.test.data.retrofit.ApiConfig
 import com.example.test.data.util.getImageUri
 import com.example.test.data.util.reduceFileImage
@@ -26,6 +26,7 @@ import com.example.test.ui.welcome.WelcomeActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -111,31 +112,32 @@ class AddPlantActivity : AppCompatActivity(){
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
             Log.d("Image File", "showImage: ${imageFile.path}")
-            //val description = binding.etDescription.text.toString()
-            showLoading(true)
 
-            //val requestBody = description.toRequestBody("text/plain".toMediaType())
+            // Contoh deskripsi konten
+            val content = "Testing a response sharing"
+
+            // Membuat RequestBody untuk konten teks
+            val contentPart = content.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            // Membuat RequestBody untuk file gambar
             val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
             val multipartBody = MultipartBody.Part.createFormData(
-                "photo",
+                "imgUrl",
                 imageFile.name,
                 requestImageFile
             )
 
+            showLoading(true)
+
             lifecycleScope.launch {
                 try {
                     val apiService = ApiConfig.getApiService()
-                    val successResponse = apiService.uploadImage("Bearer $token", multipartBody)
-                    Log.d(ContentValues.TAG, "uploadImage token: $token")
-                    Log.d(ContentValues.TAG, "uploadImage: berhasil")
-                    showToast(getString(R.string.success_upload))
-
-                    successResponse.enqueue(object : Callback<AddResponse> {
+                    apiService.uploadImage("Bearer $token", contentPart, multipartBody).enqueue(object : Callback<AddSharingResponse> {
                         override fun onResponse(
-                            call: Call<AddResponse>,
-                            response: Response<AddResponse>
+                            call: Call<AddSharingResponse>,
+                            response: Response<AddSharingResponse>
                         ) {
-
+                            showLoading(false)
                             if (response.isSuccessful) {
                                 Log.e(ContentValues.TAG, "onSuccess: ${response.message()}")
                                 backToMainActivity()
@@ -144,21 +146,21 @@ class AddPlantActivity : AppCompatActivity(){
                             }
                         }
 
-                        override fun onFailure(call: Call<AddResponse>, t: Throwable) {
-
+                        override fun onFailure(call: Call<AddSharingResponse>, t: Throwable) {
+                            showLoading(false)
                             Log.e(ContentValues.TAG, "onFailure2: ${t.message.toString()}")
                         }
                     })
-                    showLoading(false)
                 } catch (e: HttpException) {
                     val errorBody = e.response()?.errorBody()?.string()
-                    val errorResponse = Gson().fromJson(errorBody, AddResponse::class.java)
+                    val errorResponse = Gson().fromJson(errorBody, AddSharingResponse::class.java)
                     showToast(errorResponse.message.toString())
                     showLoading(false)
                 }
             }
         } ?: showToast(getString(R.string.empty_image))
     }
+
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

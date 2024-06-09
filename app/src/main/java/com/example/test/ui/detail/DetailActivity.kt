@@ -27,36 +27,43 @@ class DetailActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Story"
 
-        val id = intent.getStringExtra(ID).toString()
-        val detailViewModel = obtainViewModel(this@DetailActivity)
+        val id = intent.getStringExtra(ID)
+        if (id != null) {
+            val detailViewModel = obtainViewModel(this@DetailActivity)
 
-        viewModel.getSession().observe(this) { user ->
-            if (!user.isLogin) {
-                startActivity(Intent(this, WelcomeActivity::class.java))
-                finish()
-            } else {
-                token = user.token
-                Log.d(ContentValues.TAG, "token detail: $token")
-                Log.d(ContentValues.TAG, "id: $id")
-                detailViewModel.getDetailStory(token, id)
-                detailViewModel.story.observe(this) { storyList ->
-                    Log.d(ContentValues.TAG, "Story: $storyList")
-                    binding.apply {
-                        tvUsername.text = storyList.name
-                        tvDesc.text = storyList.description
-                        Glide.with(binding.root.context)
-                            .load(storyList.photoUrl)
-                            .into(binding.ivPhoto)
+            viewModel.getSession().observe(this) { user ->
+                if (!user.isLogin) {
+                    startActivity(Intent(this, WelcomeActivity::class.java))
+                    finish()
+                } else {
+                    token = user.token
+                    Log.d(ContentValues.TAG, "token detail: $token")
+                    Log.d(ContentValues.TAG, "id: $id")
+                    detailViewModel.getDetailSharing(token, id)
+                    detailViewModel.detail.observe(this) { storyList ->
+                        if (storyList != null) {
+                            Log.d(ContentValues.TAG, "Story: $storyList")
+                            binding.apply {
+                                tvUsername.text = storyList.name
+                                tvDesc.text = storyList.content
+                                Glide.with(binding.root.context)
+                                    .load(storyList.imgUrl)
+                                    .into(binding.ivPhoto)
+                            }
+                        } else {
+                            Log.e(ContentValues.TAG, "Error: storyList is null")
+                        }
+                    }
 
+                    detailViewModel.isLoading.observe(this) {
+                        showLoading(it)
                     }
                 }
-
-                detailViewModel.isLoading.observe(this) {
-                    showLoading(it)
-                }
             }
+        } else {
+            Log.e(ContentValues.TAG, "onCreate: ID is null")
+            // Tampilkan pesan kesalahan atau ambil tindakan yang sesuai
         }
-
     }
 
     private fun showLoading(state: Boolean) {
@@ -68,9 +75,7 @@ class DetailActivity : AppCompatActivity() {
         return ViewModelProvider(activity, factory)[DetailViewModel::class.java]
     }
 
-
     companion object {
         const val ID = "id"
     }
-
 }
