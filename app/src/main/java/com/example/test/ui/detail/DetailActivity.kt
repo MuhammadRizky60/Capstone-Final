@@ -47,7 +47,7 @@ class DetailActivity : AppCompatActivity() {
                                 tvUsername.text = storyList.name
                                 tvDesc.text = storyList.content
                                 Glide.with(binding.root.context)
-                                    .load(storyList.imgUrl)
+                                    .load(storyList.imgUrl ?: "")
                                     .into(binding.ivPhoto)
                             }
                         } else {
