@@ -11,10 +11,10 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.test.R
 import com.example.test.databinding.ActivityEditPasswordBinding
 import com.example.test.ui.ViewModelFactory
+import com.google.android.material.textfield.TextInputEditText
 
 class editPasswordActivity : AppCompatActivity() {
     private lateinit var binding : ActivityEditPasswordBinding
-
     private val viewModel by viewModels<EditPasswordViewModel>{
         ViewModelFactory.getInstance(this)
     }
