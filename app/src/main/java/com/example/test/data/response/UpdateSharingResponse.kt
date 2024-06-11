@@ -14,14 +14,14 @@ data class UpdateSharingResponse(
 	val status: String? = null
 )
 
-data class DataUpdate(
-
-	@field:SerializedName("sharing_id")
-	val sharingId: String? = null,
-
-	@field:SerializedName("imgUrl")
-	val imgUrl: Any? = null,
-
-	@field:SerializedName("content")
-	val content: String? = null
-)
+//data class DataUpdate(
+//
+//	@field:SerializedName("sharing_id")
+//	val sharingId: String? = null,
+//
+//	@field:SerializedName("imgUrl")
+//	val imgUrl: Any? = null,
+//
+//	@field:SerializedName("content")
+//	val content: String? = null
+//)

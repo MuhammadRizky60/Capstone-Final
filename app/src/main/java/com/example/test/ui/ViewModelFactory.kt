@@ -1,5 +1,6 @@
 package com.example.test.ui
 
+import EditPasswordViewModel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -7,6 +8,7 @@ import com.example.test.data.UserRepository
 import com.example.test.di.Injection
 import com.example.test.ui.addList.AddListViewModel
 import com.example.test.ui.detail.DetailViewModel
+import com.example.test.ui.editProfile.EditViewModel
 import com.example.test.ui.home.HomeFragment
 import com.example.test.ui.home.HomeViewModel
 import com.example.test.ui.login.LoginViewModel
@@ -36,6 +38,12 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
 //            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
 //                HomeViewModel(repository) as T
 //            }
+            modelClass.isAssignableFrom(EditViewModel::class.java) -> {
+                EditViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(EditPasswordViewModel::class.java) -> {
+                EditPasswordViewModel(repository) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
