@@ -38,7 +38,7 @@ class PagingSource(private val token: String) : PagingSource<Int, DataGetAllItem
                     ) {
                         if (response.isSuccessful) {
                             val storyList: List<DataGetAllItem> =
-                                (response.body()?.dataGetAll ?: emptyList()) as List<DataGetAllItem>
+                                (response.body()?.data ?: emptyList()) as List<DataGetAllItem>
                             Log.d(ContentValues.TAG, "pagingSource: $storyList")
 
                             val page = LoadResult.Page(

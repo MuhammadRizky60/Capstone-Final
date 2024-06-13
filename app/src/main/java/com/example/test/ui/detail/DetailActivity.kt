@@ -13,6 +13,9 @@ import com.example.test.databinding.ActivityDetailBinding
 import com.example.test.ui.ViewModelFactory
 import com.example.test.ui.welcome.WelcomeActivity
 
+import java.text.SimpleDateFormat
+import java.util.Locale
+
 class DetailActivity : AppCompatActivity() {
     private val viewModel by viewModels<DetailViewModel> {
         ViewModelFactory.getInstance(this)
@@ -30,6 +33,7 @@ class DetailActivity : AppCompatActivity() {
         }
 
         val id = intent.getStringExtra(ID)
+        val date = intent.getStringExtra(DATE)
         if (id != null) {
             val detailViewModel = obtainViewModel(this@DetailActivity)
 
@@ -45,8 +49,20 @@ class DetailActivity : AppCompatActivity() {
                     detailViewModel.detail.observe(this) { storyList ->
                         if (storyList != null) {
                             Log.d(ContentValues.TAG, "Story: $storyList")
+
+                            // Format ulang tanggal
+                            val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+                            val outputDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                            val formattedDate = try {
+                                val parsedDate = inputDateFormat.parse(date)
+                                outputDateFormat.format(parsedDate)
+                            } catch (e: Exception) {
+                                date
+                            }
+
                             binding.apply {
                                 tvUsername.text = storyList.name
+                                tvDate.text = formattedDate
                                 tvDesc.text = storyList.content
                                 Glide.with(binding.root.context)
                                     .load(storyList.imgUrl ?: "")
@@ -79,5 +95,6 @@ class DetailActivity : AppCompatActivity() {
 
     companion object {
         const val ID = "id"
+        const val DATE = "date"
     }
 }

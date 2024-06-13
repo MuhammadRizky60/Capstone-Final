@@ -38,37 +38,6 @@ class SharingPageFragment : Fragment() {
         return binding.root
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        viewModel.getSession().observe(viewLifecycleOwner) { user ->
-//            token = user.token
-//            viewModel.getStory(token)
-//        }
-//        val adapter = StoriesAdapter()
-//
-//        viewModel.getStory(token).observe(viewLifecycleOwner) { storyList ->
-//            adapter.submitData(lifecycle, storyList)
-//            binding.rvStories.adapter = adapter.withLoadStateFooter(
-//                footer = LoadingStateAdapter {
-//                    adapter.retry()
-//                }
-//            )
-//        }
-//
-//        adapter.setOnItemClickCallback(object : StoriesAdapter.OnItemClickCallback {
-//            override fun onItemClicked(data: DataGetAllItemItem) {
-//                Intent(this@SharingPageFragment, DetailActivity::class.java).also {
-//                    it.putExtra(DetailActivity.ID, data.userId)
-//                    startActivity(it)
-//                }
-//            }
-//        })
-//
-//        viewModel.isLoading.observe(viewLifecycleOwner) {
-//            showLoading(it)
-//        }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showLoading2(true)
@@ -87,13 +56,14 @@ class SharingPageFragment : Fragment() {
                     override fun onItemClicked(data: DataGetAllItem) {
                         Intent(requireContext(), DetailActivity::class.java).also {
                             it.putExtra(DetailActivity.ID, data.sharingId)
+                            it.putExtra(DetailActivity.DATE, data.createdAt)
                             startActivity(it)
                         }
                     }
                 })
             }
         }
-showLoading2(false)
+            showLoading2(false)
         viewModel.isLoading.observe(viewLifecycleOwner) {
             showLoading(it)
         }

@@ -7,8 +7,8 @@ data class GetAllSharingPagingResponse(
 	@field:SerializedName("pagination")
 	val pagination: Pagination? = null,
 
-	@field:SerializedName("dataGetAll")
-	val dataGetAll: List<DataGetAllItem?>? = null,
+	@field:SerializedName("data")
+	val data: List<DataGetAllItem?>? = null,
 
 	@field:SerializedName("message")
 	val message: String? = null,

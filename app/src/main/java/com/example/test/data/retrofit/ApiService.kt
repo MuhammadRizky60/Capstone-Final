@@ -6,6 +6,7 @@ import com.example.test.data.response.GetAllSharingPagingResponse
 import com.example.test.data.response.LoginResponse
 import com.example.test.data.response.RegisterResponse
 import com.example.test.data.response.UpdatePasswordResponse
+import com.example.test.data.response.UpdateProfilePhotoResponse
 import com.example.test.data.response.UpdateProfileResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -50,8 +51,8 @@ interface ApiService {
     @GET("sharing")
     fun getAllSharing(
         @Header("Authorization") token: String,
-        @Query("page") page: Int,
-        @Query("size") size: Int
+        @Query("page") page: Int = 1,
+        @Query("size") size: Int = 10
     ): Call<GetAllSharingPagingResponse>
 
 //    @GET("stories")
@@ -80,6 +81,14 @@ interface ApiService {
         @Path("user_id") userId: String,
         @Body passwordChangeRequest: PasswordChangeRequest
     ): Call<UpdatePasswordResponse>
+
+    @Multipart
+    @POST("users/{user_id}/upload-photoprofile")
+    fun uploadProfilePhoto(
+        @Header("Authorization") token: String,
+        @Path("user_id") userId: String,
+        @Part imgUrl: MultipartBody.Part?
+        ): Call<UpdateProfilePhotoResponse>
 
 //
 //    @Multipart

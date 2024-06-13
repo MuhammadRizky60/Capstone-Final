@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.test.R
 import com.example.test.databinding.FragmentProfileBinding
 import com.example.test.ui.ViewModelFactory
@@ -70,6 +71,9 @@ class ProfileFragment : Fragment() {
                 Log.d(ContentValues.TAG, "token: $token")
                 binding.emailEditTextLayout.text = user.email
                 binding.nameEditTextLayout.text = user.name
+//                Glide.with(binding.root.context)
+//                    .load(user.imgUrl)
+//                    .into(binding.ivImage)
                 // Uncomment and implement these lines if you need story data
                 // mainViewModel.getStory(token)
                 // mainViewModel.story.observe(viewLifecycleOwner) { storyList ->
