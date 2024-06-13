@@ -2,8 +2,13 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Test" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/brownnew</item>
+        <item name="colorSecondary">@color/blackbrown</item>
     </style>
 
     <style name="Theme.Test" parent="Base.Theme.Test" />
+
+    <style name="Base.Widget.AppCompat.RatingBar.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/brown</item>
+    </style>
 </resources>

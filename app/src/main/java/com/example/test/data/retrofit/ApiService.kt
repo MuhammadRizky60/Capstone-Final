@@ -2,7 +2,7 @@ package com.example.test.data.retrofit
 
 import com.example.test.data.response.AddSharingResponse
 import com.example.test.data.response.DetailSharingResponse
-import com.example.test.data.response.GetAllSharingResponse
+import com.example.test.data.response.GetAllSharingPagingResponse
 import com.example.test.data.response.LoginResponse
 import com.example.test.data.response.RegisterResponse
 import com.example.test.data.response.UpdatePasswordResponse
@@ -52,7 +52,7 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("page") page: Int,
         @Query("size") size: Int
-    ): Call<GetAllSharingResponse>
+    ): Call<GetAllSharingPagingResponse>
 
 //    @GET("stories")
 //    fun getStories(

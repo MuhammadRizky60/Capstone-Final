@@ -1,5 +1,6 @@
 package com.example.test.ui.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.test.R
 import com.example.test.data.response.Animal
-import com.example.test.ui.adapter.ListHistoryAdapter
+import com.example.test.ui.adapter.ListCoffeeAdapter
+import com.example.test.ui.detail.DetailActivity
+import com.example.test.ui.detail.DetailHistoryActivity
 
 class DashboardFragment : Fragment() {
 
@@ -46,7 +49,15 @@ class DashboardFragment : Fragment() {
 
     private fun showRecyclerList() {
         rvAnimal.layoutManager = LinearLayoutManager(context)
-        val listAnimalAdapter = ListHistoryAdapter(list)
-        rvAnimal.adapter = listAnimalAdapter
+        val listCoffeeAdapter = ListCoffeeAdapter(list)
+        rvAnimal.adapter = listCoffeeAdapter
+
+        listCoffeeAdapter.setOnItemClickCallBack(object : ListCoffeeAdapter.OnItemCallback {
+            override fun onItemClicked(data: Animal) {
+                val intentToDetail = Intent(context, DetailHistoryActivity::class.java)
+                intentToDetail.putExtra("Data", data)
+                startActivity(intentToDetail)
+            }
+        })
     }
 }

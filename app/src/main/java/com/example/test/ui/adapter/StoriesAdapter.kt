@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.DiffUtil
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.test.data.response.DataGetAllItemItem
+import com.example.test.data.response.DataGetAllItem
 
 import com.example.test.databinding.ItemStoriesBinding
 
-class StoriesAdapter : PagingDataAdapter<DataGetAllItemItem, StoriesAdapter.MyViewHolder>(DIFF_CALLBACK){
+class StoriesAdapter : PagingDataAdapter<DataGetAllItem, StoriesAdapter.MyViewHolder>(DIFF_CALLBACK){
     private var onItemClickCallback: OnItemClickCallback? = null
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
@@ -36,7 +36,7 @@ class StoriesAdapter : PagingDataAdapter<DataGetAllItemItem, StoriesAdapter.MyVi
 
     inner class MyViewHolder(val binding: ItemStoriesBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(story: DataGetAllItemItem) {
+        fun bind(story: DataGetAllItem) {
 
             Log.d(ContentValues.TAG, "bind: $story")
             binding.tvName.text = "${story.name}"
@@ -48,20 +48,20 @@ class StoriesAdapter : PagingDataAdapter<DataGetAllItemItem, StoriesAdapter.MyVi
         }
     }
     interface OnItemClickCallback {
-        fun onItemClicked(data: DataGetAllItemItem)
+        fun onItemClicked(data: DataGetAllItem)
     }
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DataGetAllItemItem>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DataGetAllItem>() {
             override fun areItemsTheSame(
-                oldItem: DataGetAllItemItem,
-                newItem: DataGetAllItemItem
+                oldItem: DataGetAllItem,
+                newItem: DataGetAllItem
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: DataGetAllItemItem,
-                newItem: DataGetAllItemItem
+                oldItem: DataGetAllItem,
+                newItem: DataGetAllItem
             ): Boolean {
                 return oldItem == newItem
             }

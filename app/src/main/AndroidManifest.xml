@@ -21,6 +21,9 @@
             android:name=".ui.editPassword.editPasswordActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.detail.DetailHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.profile.ProfileFragment"
             android:exported="false" />
         <activity

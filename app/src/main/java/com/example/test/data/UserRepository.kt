@@ -9,7 +9,7 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.example.test.data.pref.UserModel
 import com.example.test.data.pref.UserPreference
-import com.example.test.data.response.DataGetAllItemItem
+import com.example.test.data.response.DataGetAllItem
 import com.example.test.ui.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
 
@@ -17,7 +17,7 @@ class UserRepository private constructor(
     private val userPreference: UserPreference
 ) {
 
-    fun getAllSharing(token: String): LiveData<PagingData<DataGetAllItemItem>> {
+    fun getAllSharing(token: String): LiveData<PagingData<DataGetAllItem>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10

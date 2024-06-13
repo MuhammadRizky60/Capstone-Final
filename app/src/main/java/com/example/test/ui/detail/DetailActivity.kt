@@ -25,7 +25,9 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "Story"
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
 
         val id = intent.getStringExtra(ID)
         if (id != null) {

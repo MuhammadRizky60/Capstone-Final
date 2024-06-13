@@ -47,7 +47,9 @@ class AddListActivity : AppCompatActivity(){
         binding = ActivityAddListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "Add Story"
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
 
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {

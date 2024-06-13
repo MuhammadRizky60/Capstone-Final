@@ -14,7 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.test.data.response.DataGetAllItemItem
+import com.example.test.data.response.DataGetAllItem
 import com.example.test.databinding.FragmentSharingpageBinding
 import com.example.test.ui.ViewModelFactory
 import com.example.test.ui.adapter.LoadingStateAdapter
@@ -71,7 +71,7 @@ class SharingPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        showLoading2(true)
         viewModel.getSession().observe(viewLifecycleOwner) { user ->
             token = user.token
             viewModel.getStory(token).observe(viewLifecycleOwner) { storyList ->
@@ -84,7 +84,7 @@ class SharingPageFragment : Fragment() {
                 )
 
                 adapter.setOnItemClickCallback(object : StoriesAdapter.OnItemClickCallback {
-                    override fun onItemClicked(data: DataGetAllItemItem) {
+                    override fun onItemClicked(data: DataGetAllItem) {
                         Intent(requireContext(), DetailActivity::class.java).also {
                             it.putExtra(DetailActivity.ID, data.sharingId)
                             startActivity(it)
@@ -93,7 +93,7 @@ class SharingPageFragment : Fragment() {
                 })
             }
         }
-
+showLoading2(false)
         viewModel.isLoading.observe(viewLifecycleOwner) {
             showLoading(it)
         }
@@ -124,6 +124,10 @@ class SharingPageFragment : Fragment() {
 
     private fun showLoading(state: Boolean) {
         binding.progressbar.visibility = if (state) View.VISIBLE else View.GONE
+    }
+
+    private fun showLoading2(state: Boolean) {
+        binding.progressbarRV.visibility = if (state) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {

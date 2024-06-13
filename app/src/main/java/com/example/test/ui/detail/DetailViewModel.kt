@@ -44,6 +44,7 @@ class DetailViewModel(private val repository: UserRepository) : ViewModel() {
 
             override fun onResponse(call: Call<DetailSharingResponse>, response: Response<DetailSharingResponse>) {
                 if (response.isSuccessful) {
+                    misLoading.value = false
                     val detailSharing = response.body()?.dataById
                     if (detailSharing != null) {
                         mdetail.postValue(detailSharing)

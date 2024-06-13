@@ -4,8 +4,8 @@ import android.content.ContentValues
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.test.data.response.DataGetAllItemItem
-import com.example.test.data.response.GetAllSharingResponse
+import com.example.test.data.response.DataGetAllItem
+import com.example.test.data.response.GetAllSharingPagingResponse
 import com.example.test.data.retrofit.ApiConfig
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
@@ -14,31 +14,31 @@ import retrofit2.Response
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class PagingSource(private val token: String) : PagingSource<Int, DataGetAllItemItem>() {
+class PagingSource(private val token: String) : PagingSource<Int, DataGetAllItem>() {
     private companion object {
         const val INITIAL_PAGE_INDEX = 1
     }
 
-    override fun getRefreshKey(state: PagingState<Int, DataGetAllItemItem>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, DataGetAllItem>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
-    override suspend fun load(params: androidx.paging.PagingSource.LoadParams<Int>): androidx.paging.PagingSource.LoadResult<Int, DataGetAllItemItem> {
+    override suspend fun load(params: androidx.paging.PagingSource.LoadParams<Int>): androidx.paging.PagingSource.LoadResult<Int, DataGetAllItem> {
         try {
             val position = params.key ?: 1
             return suspendCancellableCoroutine { continuation ->
                 Log.d(ContentValues.TAG, "tokenPagingSource: $token")
                 val client = ApiConfig.getApiService().getAllSharing("Bearer $token",position, params.loadSize)
-                client.enqueue(object : Callback<GetAllSharingResponse> {
+                client.enqueue(object : Callback<GetAllSharingPagingResponse> {
                     override fun onResponse(
-                        call: Call<GetAllSharingResponse>,
-                        response: Response<GetAllSharingResponse>
+                        call: Call<GetAllSharingPagingResponse>,
+                        response: Response<GetAllSharingPagingResponse>
                     ) {
                         if (response.isSuccessful) {
-                            val storyList: List<DataGetAllItemItem> =
-                                (response.body()?.dataGetAll ?: emptyList()) as List<DataGetAllItemItem>
+                            val storyList: List<DataGetAllItem> =
+                                (response.body()?.dataGetAll ?: emptyList()) as List<DataGetAllItem>
                             Log.d(ContentValues.TAG, "pagingSource: $storyList")
 
                             val page = LoadResult.Page(
@@ -54,7 +54,7 @@ class PagingSource(private val token: String) : PagingSource<Int, DataGetAllItem
                         }
                     }
 
-                    override fun onFailure(call: Call<GetAllSharingResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<GetAllSharingPagingResponse>, t: Throwable) {
                         Log.e(ContentValues.TAG, "onFailure2: ${t.message.toString()}")
                         continuation.resumeWithException(t)
                     }

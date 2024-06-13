@@ -2,10 +2,13 @@ package com.example.test.data.response
 
 import com.google.gson.annotations.SerializedName
 
-data class GetAllSharingResponse(
+data class GetAllSharingPagingResponse(
+
+	@field:SerializedName("pagination")
+	val pagination: Pagination? = null,
 
 	@field:SerializedName("dataGetAll")
-	val dataGetAll: List<DataGetAllItemItem?> = emptyList(),
+	val dataGetAll: List<DataGetAllItem?>? = null,
 
 	@field:SerializedName("message")
 	val message: String? = null,
@@ -14,7 +17,22 @@ data class GetAllSharingResponse(
 	val status: String? = null
 )
 
-data class DataGetAllItemItem(
+data class Pagination(
+
+	@field:SerializedName("totalItems")
+	val totalItems: Int? = null,
+
+	@field:SerializedName("itemsPerPage")
+	val itemsPerPage: Int? = null,
+
+	@field:SerializedName("totalPages")
+	val totalPages: Int? = null,
+
+	@field:SerializedName("currentPage")
+	val currentPage: Int? = null
+)
+
+data class DataGetAllItem(
 
 	@field:SerializedName("sharing_id")
 	val sharingId: String? = null,

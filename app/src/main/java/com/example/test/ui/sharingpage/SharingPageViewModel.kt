@@ -9,8 +9,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.test.data.UserRepository
 import com.example.test.data.pref.UserModel
-import com.example.test.data.response.DataGetAllItemItem
-import com.example.test.data.response.GetAllSharingResponse
+import com.example.test.data.response.DataGetAllItem
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,8 +32,8 @@ import retrofit2.Response
 
 class SharingPageViewModel(private val repository: UserRepository) : ViewModel() {
 
-    private val _story = MutableLiveData<List<DataGetAllItemItem>>()
-    val story: LiveData<List<DataGetAllItemItem>> = _story
+    private val _story = MutableLiveData<List<DataGetAllItem>>()
+    val story: LiveData<List<DataGetAllItem>> = _story
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -65,6 +64,6 @@ class SharingPageViewModel(private val repository: UserRepository) : ViewModel()
 //        })
 //    }
 
-    fun getStory(token: String): LiveData<PagingData<DataGetAllItemItem>> =
+    fun getStory(token: String): LiveData<PagingData<DataGetAllItem>> =
         repository.getAllSharing(token).cachedIn(viewModelScope)
 }

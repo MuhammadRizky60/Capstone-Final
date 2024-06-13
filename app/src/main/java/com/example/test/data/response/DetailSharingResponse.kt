@@ -26,7 +26,7 @@ data class DataById(
 	val name: String? = null,
 
 	@field:SerializedName("ImgUrl")
-	val imgUrl: String? = null,
+	val imgUrl: Any? = null,
 
 	@field:SerializedName("content")
 	val content: String? = null

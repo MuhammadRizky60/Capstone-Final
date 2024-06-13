@@ -35,9 +35,6 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             modelClass.isAssignableFrom(SharingPageViewModel::class.java) -> {
                 SharingPageViewModel(repository) as T
             }
-//            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
-//                HomeViewModel(repository) as T
-//            }
             modelClass.isAssignableFrom(EditViewModel::class.java) -> {
                 EditViewModel(repository) as T
             }
