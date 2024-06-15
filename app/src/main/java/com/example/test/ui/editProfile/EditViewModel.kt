@@ -17,5 +17,10 @@ class EditViewModel(private val repository: UserRepository): ViewModel() {
             repository.saveSession(user)
         }
     }
+    fun logout() {
+        viewModelScope.launch {
+            repository.logout()
+        }
+    }
 
 }

@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class DetailSharingResponse(
 
-	@field:SerializedName("dataById")
-	val dataById: DataById? = null,
+	@field:SerializedName("data")
+	val data: DataById? = null,
 
 	@field:SerializedName("message")
 	val message: String? = null,
@@ -25,7 +25,7 @@ data class DataById(
 	@field:SerializedName("name")
 	val name: String? = null,
 
-	@field:SerializedName("ImgUrl")
+	@field:SerializedName("imgUrl")
 	val imgUrl: Any? = null,
 
 	@field:SerializedName("content")

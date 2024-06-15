@@ -21,6 +21,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.PartMap
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -68,11 +69,13 @@ interface ApiService {
         @Path("sharing_id") sharingid: String
     ): Call<DetailSharingResponse>
 
-    @PUT("users/{uid}")
+    @Multipart
+    @PUT("users/update-users/{id}")
     suspend fun updateUser(
         @Header("Authorization") token: String,
-        @Path("uid") uid: String,
-        @Body userInfo: Map<String, String>
+        @Path("id") id: String,
+        @PartMap userInfo: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part imgUrl: MultipartBody.Part? = null
     ): Response<UpdateProfileResponse>
 
     @PUT("users/change-password/{user_id}")

@@ -2,6 +2,7 @@ package com.example.test.ui.profile
 
 import android.content.ContentValues
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.example.test.R
 import com.example.test.databinding.FragmentProfileBinding
 import com.example.test.ui.ViewModelFactory
 import com.example.test.ui.editPassword.editPasswordActivity
+import com.example.test.ui.editProfile.EditViewModel
 import com.example.test.ui.editProfile.editProfileActivity
 import com.example.test.ui.main.MainViewModel
 import com.example.test.ui.welcome.WelcomeActivity
@@ -26,7 +28,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<MainViewModel> {
+    private val viewModel by viewModels<EditViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
 
@@ -71,15 +73,12 @@ class ProfileFragment : Fragment() {
                 Log.d(ContentValues.TAG, "token: $token")
                 binding.emailEditTextLayout.text = user.email
                 binding.nameEditTextLayout.text = user.name
-//                Glide.with(binding.root.context)
-//                    .load(user.imgUrl)
-//                    .into(binding.ivImage)
-                // Uncomment and implement these lines if you need story data
-                // mainViewModel.getStory(token)
-                // mainViewModel.story.observe(viewLifecycleOwner) { storyList ->
-                //     Log.d(ContentValues.TAG, "Story: $storyList")
-                //     setStoryData(storyList)
-                // }
+
+                user.imgUrl.let { url ->
+                    Glide.with(this)
+                        .load(url)
+                        .into(binding.photoProfile)
+                }
             }
         }
 

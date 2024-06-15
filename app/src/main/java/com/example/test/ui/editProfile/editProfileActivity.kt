@@ -15,8 +15,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.test.R
 import com.example.test.data.pref.UserModel
-import com.example.test.data.response.AddSharingResponse
-import com.example.test.data.response.UpdateProfilePhotoResponse
 import com.example.test.data.response.UpdateProfileResponse
 import com.example.test.data.retrofit.ApiConfig
 import com.example.test.data.util.getImageUri
@@ -27,13 +25,10 @@ import com.example.test.ui.ViewModelFactory
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.File
@@ -77,12 +72,7 @@ class editProfileActivity : AppCompatActivity() {
                 binding.saveButton.setOnClickListener {
                     val newUsername = binding.editUsername.text.toString()
                     val newEmail = binding.editEmail.text.toString()
-                    updateUserProfile(token, userId, newUsername, newEmail)
-                    currentImageUri.let { uri ->
-                        if (uri != null) {
-                            uploadImage(this, userId, uri, token)
-                        }
-                    }
+                    updateUserProfile(token, userId, newUsername, newEmail, currentImageUri)
                 }
 
                 binding.ivCamera.setOnClickListener { startCamera() }
@@ -91,11 +81,23 @@ class editProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUserProfile(token: String, uid: String, name: String, email: String) {
+    private fun updateUserProfile(token: String, uid: String, name: String?, email: String?, imgUrl: Uri?) {
         lifecycleScope.launch {
             try {
                 val apiService = ApiConfig.getApiService()
-                val response = apiService.updateUser("Bearer $token", uid, mapOf("name" to name, "email" to email))
+
+                val userInfo = mutableMapOf<String, RequestBody>()
+                name?.let { userInfo["name"] = it.toRequestBody("text/plain".toMediaType()) }
+                email?.let { userInfo["email"] = it.toRequestBody("text/plain".toMediaType()) }
+
+                val imgUrl: MultipartBody.Part? = imgUrl?.let { uri ->
+                    val imageFile = uriToFile(uri, this@editProfileActivity).reduceFileImage()
+                    val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
+                    MultipartBody.Part.createFormData("imgUrl", imageFile.name, requestImageFile)
+                }
+
+                val response = apiService.updateUser("Bearer $token", uid, userInfo, imgUrl)
+
                 if (response.isSuccessful) {
                     val successResponse = response.body()?.message
                     val updatedUser = response.body()?.dataUpdate
@@ -103,7 +105,7 @@ class editProfileActivity : AppCompatActivity() {
                     successResponse?.let { showToast(it) }
 
                     if (updatedUser != null) {
-                        viewModel.saveSession(UserModel(updatedUser.email ?: "", token, true, updatedUser.name ?: "", updatedUser.userId ?: ""))
+                        viewModel.saveSession(UserModel(updatedUser.email ?: "", token, true, updatedUser.name ?: "", updatedUser.userId ?: "", updatedUser.photoProfileUrl ?: ""))
                     }
                     showToast(getString(R.string.success_profile_update))
                     finish()
@@ -118,79 +120,6 @@ class editProfileActivity : AppCompatActivity() {
                 errorResponse.message?.let { showToast(it) }
             } catch (e: Exception) {
                 showToast("Error: ${e.message}")
-            }
-        }
-    }
-
-//    private fun uploadProfilePhoto(context: Context, userId: String, fileUri: Uri, token: String) {
-//        val file = File(fileUri.path)
-//        val requestFile = RequestBody.create(
-//            context.contentResolver.getType(fileUri)?.toMediaTypeOrNull(),
-//            file
-//        )
-//        val body = MultipartBody.Part.createFormData("profile_photo", file.name, requestFile)
-//
-//        val call = ApiConfig.getApiService().uploadProfilePhoto("Bearer $token", userId, body)
-//        call.enqueue(object : Callback<UpdateProfilePhotoResponse> {
-//            override fun onResponse(
-//                call: Call<UpdateProfilePhotoResponse>,
-//                response: Response<UpdateProfilePhotoResponse>
-//            ) {
-//                if (response.isSuccessful) {
-//                    val result = response.body()
-//                    result?.let {
-//                        it.message?.let { it1 -> showToast(it1) }
-//                        it.dataUploadProfile?.photoProfileUrl?.let { it1 ->
-//                            Log.d("Profile Photo URL",
-//                                it1
-//                            )
-//                        }
-//                    }
-//                } else {
-//                    Log.e("Upload Photo", response.errorBody()?.string() ?: "Unknown error")
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<UpdateProfilePhotoResponse>, t: Throwable) {
-//                Log.e("Upload Photo", t.message ?: "Unknown error")
-//            }
-//        })
-//    }
-
-    private fun uploadImage(context: Context, userId: String, fileUri: Uri, token: String) {
-        val imagePart: MultipartBody.Part? = currentImageUri?.let { uri ->
-            val imageFile = uriToFile(uri, this).reduceFileImage()
-            val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
-            MultipartBody.Part.createFormData("imgUrl", imageFile.name, requestImageFile)
-        }
-
-        lifecycleScope.launch {
-            try {
-                val apiService = ApiConfig.getApiService()
-                val call =
-                    imagePart?.let { apiService.uploadProfilePhoto("Bearer $token", userId, it) }
-
-                if (call != null) {
-                    call.enqueue(object : Callback<UpdateProfilePhotoResponse> {
-                        override fun onResponse(call: Call<UpdateProfilePhotoResponse>, response: Response<UpdateProfilePhotoResponse>) {
-                            if (response.isSuccessful) {
-                                Log.e(ContentValues.TAG, "onSuccess: ${response.message()}")
-                            } else {
-                                Log.e(ContentValues.TAG, "onFailure1: ${response.message()}")
-                                showToast(response.message())
-                            }
-                        }
-
-                        override fun onFailure(call: Call<UpdateProfilePhotoResponse>, t: Throwable) {
-                            Log.e(ContentValues.TAG, "onFailure2: ${t.message.toString()}")
-                            showToast(t.message.toString())
-                        }
-                    })
-                }
-            } catch (e: HttpException) {
-                val errorBody = e.response()?.errorBody()?.string()
-                val errorResponse = Gson().fromJson(errorBody, UpdateProfilePhotoResponse::class.java)
-                showToast(errorResponse.message.toString())
             }
         }
     }

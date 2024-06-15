@@ -85,16 +85,18 @@ class LoginActivity : AppCompatActivity() {
                     val successResponse = loginResponse.message
                     val token = loginResponse.accessToken
                     val name = loginResponse.name
+                    val imgUrl = loginResponse.photoProfileUrl
                     val uid = loginResponse.userId
                     showToast(successResponse)
 
-                    if (token != null && name != null) {
-                        uid?.let { it1 ->
-                            UserModel(email, token.toString(), true, name,
-                                it1
-                            )
-                        }?.let { it2 -> viewModel.saveSession(it2) }
+                    if (token != null && name != null && uid != null) {
+                        val userModel =
+                            imgUrl?.let { it1 -> UserModel(email, token, true, name, uid, it1) }
+                        if (userModel != null) {
+                            viewModel.saveSession(userModel)
+                        }
                     }
+
                     showLoading(false)
                     showToast(getString(R.string.success_login))
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))

@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.test.databinding.FragmentHomeBinding
 import com.example.test.ui.ViewModelFactory
 import com.example.test.ui.addPlant.AddPlantActivity
@@ -62,6 +63,11 @@ class HomeFragment : Fragment() {
                 token = user.token
                 Log.d(ContentValues.TAG, "token: $token")
                 binding.tvName.text = user.name
+                user.imgUrl.let { url ->
+                    Glide.with(this)
+                        .load(url)
+                        .into(binding.ivLogoprofile)
+                }
 
                 // Uncomment and implement these lines if you need story data
                 // mainViewModel.getStory(token)

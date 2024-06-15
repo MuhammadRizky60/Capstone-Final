@@ -7,6 +7,9 @@ data class LoginResponse(
     @field:SerializedName("access_token")
     val accessToken: String? = null,
 
+    @field:SerializedName("photoProfileUrl")
+    val photoProfileUrl: String? = null,
+
     @field:SerializedName("user_id")
     val userId: String? = null,
 
