@@ -100,7 +100,7 @@
                 app:boxCornerRadiusTopStart="16dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-                <com.example.test.ui.MyEmailText
+                <com.example.agronect.ui.MyEmailText
                     android:id="@+id/tv_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
                 app:endIconMode="password_toggle"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-                <com.example.test.ui.MyEditText
+                <com.example.agronect.ui.MyEditText
                     android:id="@+id/tv_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

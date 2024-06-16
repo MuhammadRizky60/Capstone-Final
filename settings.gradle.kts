@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "test"
+rootProject.name = "agronect"
 include(":app")
  

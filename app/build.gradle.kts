@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.test"
+    namespace = "com.example.agronect"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.test"
+        applicationId = "com.example.agronect"
         minSdk = 33
         targetSdk = 34
         versionCode = 1
