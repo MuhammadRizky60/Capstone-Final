@@ -24,7 +24,6 @@ import com.example.test.ui.main.MainViewModel
 import com.example.test.ui.welcome.WelcomeActivity
 
 class ProfileFragment : Fragment() {
-
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
@@ -53,6 +52,7 @@ class ProfileFragment : Fragment() {
             val intent = Intent(requireContext(), editProfileActivity::class.java)
             intent.putExtra("username", binding.nameEditTextLayout.text.toString())
             intent.putExtra("email", binding.emailEditTextLayout.text.toString())
+            intent.putExtra("imgUrl", viewModel.getSession().value?.imgUrl)
             startActivity(intent)
         }
 
@@ -74,7 +74,7 @@ class ProfileFragment : Fragment() {
                 binding.emailEditTextLayout.text = user.email
                 binding.nameEditTextLayout.text = user.name
 
-                user.imgUrl.let { url ->
+                user.imgUrl?.let { url ->
                     Glide.with(this)
                         .load(url)
                         .into(binding.photoProfile)

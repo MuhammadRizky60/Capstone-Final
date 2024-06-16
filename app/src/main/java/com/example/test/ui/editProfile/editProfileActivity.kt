@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.test.R
 import com.example.test.data.pref.UserModel
 import com.example.test.data.response.UpdateProfileResponse
@@ -30,7 +31,6 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
-import retrofit2.Response
 import java.io.File
 
 class editProfileActivity : AppCompatActivity() {
@@ -50,9 +50,14 @@ class editProfileActivity : AppCompatActivity() {
 
         val username = intent.getStringExtra("username")
         val email = intent.getStringExtra("email")
+//        val imgUrl = Uri.parse(intent.getStringExtra("imgUrl"))
 
         binding.editUsername.setText(username)
         binding.editEmail.setText(email)
+
+//        imgUrl?.let {
+//            loadImage(it)
+//        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -68,6 +73,7 @@ class editProfileActivity : AppCompatActivity() {
             if (user != null && user.isLogin) {
                 val token = user.token
                 val userId = user.uid
+                val imgUrl = user.imgUrl
 
                 binding.saveButton.setOnClickListener {
                     val newUsername = binding.editUsername.text.toString()
@@ -75,10 +81,22 @@ class editProfileActivity : AppCompatActivity() {
                     updateUserProfile(token, userId, newUsername, newEmail, currentImageUri)
                 }
 
+                user.imgUrl?.let { url ->
+                    Glide.with(this)
+                        .load(imgUrl)
+                        .into(binding.photoProfile)
+                }
+
                 binding.ivCamera.setOnClickListener { startCamera() }
                 binding.ivGalery.setOnClickListener { startGallery() }
             }
         }
+    }
+
+    private fun loadImage(imgUrl: String) {
+        Glide.with(this)
+            .load(imgUrl)
+            .into(binding.photoProfile)
     }
 
     private fun updateUserProfile(token: String, uid: String, name: String?, email: String?, imgUrl: Uri?) {
@@ -90,13 +108,13 @@ class editProfileActivity : AppCompatActivity() {
                 name?.let { userInfo["name"] = it.toRequestBody("text/plain".toMediaType()) }
                 email?.let { userInfo["email"] = it.toRequestBody("text/plain".toMediaType()) }
 
-                val imgUrl: MultipartBody.Part? = imgUrl?.let { uri ->
+                val imgUrlPart: MultipartBody.Part? = imgUrl?.let { uri ->
                     val imageFile = uriToFile(uri, this@editProfileActivity).reduceFileImage()
                     val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
                     MultipartBody.Part.createFormData("imgUrl", imageFile.name, requestImageFile)
                 }
 
-                val response = apiService.updateUser("Bearer $token", uid, userInfo, imgUrl)
+                val response = apiService.updateUser("Bearer $token", uid, userInfo, imgUrlPart)
 
                 if (response.isSuccessful) {
                     val successResponse = response.body()?.message
@@ -163,3 +181,4 @@ class editProfileActivity : AppCompatActivity() {
         Toast.makeText(this@editProfileActivity, message, Toast.LENGTH_SHORT).show()
     }
 }
+
